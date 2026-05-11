@@ -22,489 +22,563 @@
     /></noscript>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
-        body { background-color: #050a0f; color: #ffffff; scroll-behavior: smooth; font-family: 'Inter', sans-serif; }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #60a5fa, #ffffff 60%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        :root {
+            --blue: #3b82f6;
+            --blue-dim: rgba(59,130,246,0.15);
         }
 
-        .card-glow:hover {
-            box-shadow: 0 0 40px rgba(4, 102, 153, 0.25);
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: #080808;
+            color: #ffffff;
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
         }
 
-        .stat-number {
-            font-variant-numeric: tabular-nums;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .fade-up { animation: fadeUp 0.7s ease both; }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.22s; }
-        .delay-3 { animation-delay: 0.34s; }
-        .delay-4 { animation-delay: 0.46s; }
-
-        .ticker {
+        /* ── Ticker ── */
+        .ticker-track {
             display: flex;
-            gap: 3rem;
-            animation: ticker 30s linear infinite;
-            white-space: nowrap;
+            width: max-content;
+            animation: ticker-move 25s linear infinite;
         }
-        @keyframes ticker {
+        @keyframes ticker-move {
             from { transform: translateX(0); }
             to   { transform: translateX(-50%); }
         }
 
-        @media (max-width: 768px) {
-            .columns-1 { column-count: 1 !important; }
+        /* ── Testimonials ── */
+        .reviews-track {
+            display: flex;
+            gap: 1.5rem;
+            animation: ticker-move 40s linear infinite;
+        }
+
+        /* ── Fade up ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.75s cubic-bezier(.22,1,.36,1) both; }
+        .d1 { animation-delay: .05s; }
+        .d2 { animation-delay: .18s; }
+        .d3 { animation-delay: .31s; }
+
+        /* ── Scroll indicator ── */
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(6px); }
+        }
+        .scroll-bounce { animation: scrollBounce 1.8s ease-in-out infinite; }
+
+        /* ── Divider line (blue) ── */
+        .line-accent { border-color: var(--blue); }
+
+        /* ── Service item hover ── */
+        .svc-item { border-bottom: 1px solid rgba(255,255,255,0.07); }
+        .svc-item:last-child { border-bottom: none; }
+        .svc-item:hover .svc-num { color: var(--blue); }
+        .svc-item:hover .svc-arrow { opacity: 1; transform: translate(0,0); }
+
+        .svc-arrow {
+            opacity: 0;
+            transform: translate(-6px, 6px);
+            transition: opacity .3s, transform .3s;
+        }
+
+        /* ── CTA glow ── */
+        .cta-btn:hover {
+            box-shadow: 0 0 40px rgba(37,211,102,0.4);
+        }
+
+        @media (max-width: 640px) {
+            .hero-title { font-size: 2.8rem; line-height: 1.05; }
         }
     </style>
 </head>
-<body class="antialiased relative overflow-x-hidden z-0">
+<body class="antialiased overflow-x-hidden">
 
-    <!-- Background blobs -->
-    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div class="absolute top-[-20%] left-[-10%] w-[700px] h-[700px] rounded-full bg-[#0a3a52] blur-[160px] opacity-50"></div>
-        <div class="absolute top-[35%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#046699] blur-[200px] opacity-25"></div>
-        <div class="absolute bottom-[-10%] left-[15%] w-[800px] h-[800px] rounded-full bg-[#0a3a52] blur-[170px] opacity-40"></div>
-    </div>
-
-    <!-- ── HEADER ── -->
-    <header class="fixed w-full top-0 bg-[#050a0f]/85 backdrop-blur-xl z-50 border-b border-white/5">
-        <div class="container mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
-                <span class="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></span>
+    <!-- ══════════════════════════════
+         HEADER
+    ══════════════════════════════ -->
+    <header class="fixed w-full top-0 z-50 border-b border-white/8 bg-[#080808]/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <span class="text-white font-black tracking-tighter text-xl flex items-center gap-2.5">
+                <span class="block w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                 T3 STUDIO
-            </div>
-            <nav class="hidden md:flex space-x-8 text-xs font-bold tracking-widest text-white/60">
-                <a href="#inicio"     class="hover:text-white transition">INÍCIO</a>
-                <a href="#agencia"    class="hover:text-white transition">A AGÊNCIA</a>
-                <a href="#servicos"   class="hover:text-white transition">SERVIÇOS</a>
-                <a href="#resultados" class="hover:text-white transition">CASES</a>
+            </span>
+
+            <nav class="hidden md:flex gap-8 text-[11px] font-semibold tracking-[.12em] text-white/50 uppercase">
+                <a href="#inicio"     class="hover:text-white transition-colors">Início</a>
+                <a href="#agencia"    class="hover:text-white transition-colors">A Agência</a>
+                <a href="#servicos"   class="hover:text-white transition-colors">Serviços</a>
+                <a href="#resultados" class="hover:text-white transition-colors">Cases</a>
             </nav>
-            <a href="https://wa.me/5566999427636" onclick="fbq('track', 'Contact');" target="_blank"
-               class="hidden md:block px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-gray-200 transition">
+
+            <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+               class="text-[11px] font-bold tracking-[.1em] uppercase px-5 py-2.5 border border-white/20 text-white hover:bg-white hover:text-black transition-colors duration-200">
                 Falar com a Equipe
             </a>
         </div>
     </header>
 
-    <!-- ── HERO ── -->
-    <section id="inicio" class="pt-44 pb-24 px-6 min-h-[95vh] flex flex-col justify-center items-center text-center relative z-10">
-        <h1 class="fade-up delay-1 text-5xl md:text-7xl font-black tracking-tighter mb-6 uppercase leading-[1.05] max-w-5xl">
-            Sua marca crescendo.<br/>
-            <span class="gradient-text">Todo mês. Sem desculpas.</span>
-        </h1>
 
-        <p class="fade-up delay-2 text-lg md:text-xl text-white/65 max-w-2xl mb-12 font-light leading-relaxed">
-            Estratégia, tráfego pago, conteúdo e gestão de marca — tudo integrado para gerar resultado real, não apenas likes.
+    <!-- ══════════════════════════════
+         HERO
+    ══════════════════════════════ -->
+    <section id="inicio" class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-16 relative">
+
+        <!-- Subtle blue glow behind title -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <p class="fade-up d1 text-[11px] font-semibold tracking-[.2em] uppercase text-blue-400 mb-8">
+            Agência de Marketing Full Service
         </p>
 
-        <div class="fade-up delay-3 flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
-            <a href="https://wa.me/5566999427636" onclick="fbq('track', 'Contact');" target="_blank"
-               class="px-10 py-5 bg-white text-[#050a0f] font-black uppercase tracking-wide rounded-sm hover:scale-105 transition duration-300 shadow-[0_0_40px_rgba(255,255,255,0.15)] text-center text-sm">
+        <h1 class="fade-up d2 hero-title text-[clamp(2.8rem,8vw,7rem)] font-black uppercase tracking-tight leading-[1.02] max-w-5xl mb-8">
+            Sua marca crescendo.<br/>
+            <span style="color:var(--blue)">Todo mês.</span><br/>
+            Sem desculpas.
+        </h1>
+
+        <p class="fade-up d3 text-white/50 text-base md:text-lg font-light max-w-xl mb-14 leading-relaxed">
+            Estratégia, tráfego pago, conteúdo e gestão de marca — tudo integrado para gerar resultado real.
+        </p>
+
+        <div class="fade-up d3 flex flex-col sm:flex-row gap-4">
+            <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+               class="px-10 py-4 bg-white text-black font-black text-sm uppercase tracking-wide hover:bg-blue-400 hover:text-white transition-colors duration-200">
                 Quero Escalar Minha Marca
             </a>
             <a href="#servicos"
-               class="px-10 py-5 border border-white/20 text-white font-bold uppercase tracking-wide rounded-sm hover:bg-white/5 transition backdrop-blur-sm text-center text-sm flex justify-center items-center gap-2">
+               class="px-10 py-4 border border-white/20 text-white font-semibold text-sm uppercase tracking-wide hover:border-blue-500 hover:text-blue-400 transition-colors duration-200 flex items-center justify-center gap-2">
                 Ver Serviços
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                </svg>
             </a>
         </div>
 
-    </section>
-
-    <!-- ── ABOUT ── -->
-    <section id="agencia" class="py-28 px-6 relative z-10">
-        <div class="container mx-auto max-w-6xl">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-                <div>
-                    <div class="inline-block px-3 py-1 mb-5 border border-blue-500/30 rounded-full bg-blue-500/10 text-xs font-bold uppercase tracking-widest text-blue-400">
-                        Por que a T3
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-white leading-tight">
-                        Marketing que<br/>move o ponteiro.
-                    </h2>
-                    <p class="text-white/65 mb-8 text-lg font-light leading-relaxed">
-                        Enquanto outras agências vendem post bonito, a T3 entrega crescimento. Unimos estratégia de dados, produção de conteúdo de alto impacto e gestão de tráfego pago em uma estrutura integrada — projetada para uma única coisa: resultado no seu faturamento.
-                    </p>
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 w-8 h-8 shrink-0 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-bold">✓</div>
-                            <div>
-                                <p class="text-white font-semibold">Estratégia orientada a dados, não a achismo</p>
-                                <p class="text-white/50 text-sm mt-0.5">Cada decisão é embasada em métricas reais do seu negócio.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 w-8 h-8 shrink-0 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-bold">✓</div>
-                            <div>
-                                <p class="text-white font-semibold">Produção audiovisual integrada</p>
-                                <p class="text-white/50 text-sm mt-0.5">Conteúdo que converte — feito na nossa estrutura, sem terceiros.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <div class="mt-1 w-8 h-8 shrink-0 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-bold">✓</div>
-                            <div>
-                                <p class="text-white font-semibold">Gestão dedicada, atendimento direto</p>
-                                <p class="text-white/50 text-sm mt-0.5">Sem estagiário, sem jogo de telefone — você fala com quem decide.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative">
-                    <div class="rounded-2xl bg-[#08101a] border border-white/10 p-10 shadow-2xl">
-                        <div class="text-blue-400 mb-3 text-xs font-bold uppercase tracking-widest">Nosso Processo</div>
-                        <div class="space-y-6">
-                            <div class="flex gap-5 items-start">
-                                <div class="w-10 h-10 shrink-0 rounded-xl bg-blue-500/15 border border-blue-500/20 flex items-center justify-center font-black text-blue-400">01</div>
-                                <div>
-                                    <p class="font-bold text-white">Diagnóstico de Marca</p>
-                                    <p class="text-white/50 text-sm mt-0.5">Mapeamos onde você está e onde precisa chegar.</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-5 items-start">
-                                <div class="w-10 h-10 shrink-0 rounded-xl bg-blue-500/15 border border-blue-500/20 flex items-center justify-center font-black text-blue-400">02</div>
-                                <div>
-                                    <p class="font-bold text-white">Estratégia Personalizada</p>
-                                    <p class="text-white/50 text-sm mt-0.5">Plano de ação com canais, verba e metas definidas.</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-5 items-start">
-                                <div class="w-10 h-10 shrink-0 rounded-xl bg-blue-500/15 border border-blue-500/20 flex items-center justify-center font-black text-blue-400">03</div>
-                                <div>
-                                    <p class="font-bold text-white">Execução & Conteúdo</p>
-                                    <p class="text-white/50 text-sm mt-0.5">Produzimos, publicamos e gerenciamos tudo por você.</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-5 items-start">
-                                <div class="w-10 h-10 shrink-0 rounded-xl bg-blue-500/15 border border-blue-500/20 flex items-center justify-center font-black text-blue-400">04</div>
-                                <div>
-                                    <p class="font-bold text-white">Otimização Contínua</p>
-                                    <p class="text-white/50 text-sm mt-0.5">Relatórios mensais e ajustes constantes para escalar.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30">
+            <span class="text-[10px] tracking-[.15em] uppercase">Scroll</span>
+            <div class="scroll-bounce">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
             </div>
         </div>
     </section>
 
-    <!-- ── SERVICES ── -->
-    <section id="servicos" class="py-28 px-6 relative z-10 border-y border-white/5 bg-[#02060a]">
-        <div class="container mx-auto max-w-7xl">
-            <div class="text-center mb-16">
-                <div class="inline-block px-3 py-1 mb-5 border border-blue-500/30 rounded-full bg-blue-500/10 text-xs font-bold uppercase tracking-widest text-blue-400">
-                    Soluções Completas
-                </div>
-                <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-4">Tudo que sua marca precisa.</h2>
-                <p class="text-white/55 max-w-2xl mx-auto text-lg font-light">De zero a escala — oferecemos o ecossistema completo de marketing para negócios que querem crescer de verdade.</p>
-            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- ══════════════════════════════
+         BLUE LINE + TICKER
+    ══════════════════════════════ -->
+    <div class="border-t-2 line-accent"></div>
 
-                <div class="bg-[#07101a] p-8 rounded-2xl border border-white/5 hover:border-blue-500/40 card-glow transition duration-500 group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M0 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Tráfego Pago</h3>
-                    <p class="text-white/55 text-sm leading-relaxed">Meta Ads, Google Ads e TikTok Ads gerenciados para maximizar ROI. Campanhas de captação, remarketing e escala estruturada.</p>
-                    <div class="mt-5 pt-5 border-t border-white/5 flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Meta Ads</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Google Ads</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">TikTok Ads</span>
-                    </div>
-                </div>
-
-                <div class="bg-[#07101a] p-8 rounded-2xl border border-white/5 hover:border-blue-500/40 card-glow transition duration-500 group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0H8zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Gestão de Redes Sociais</h3>
-                    <p class="text-white/55 text-sm leading-relaxed">Estratégia editorial, criação de conteúdo e gestão completa do Instagram, Facebook e LinkedIn para construir autoridade e comunidade.</p>
-                    <div class="mt-5 pt-5 border-t border-white/5 flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Instagram</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Facebook</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">LinkedIn</span>
-                    </div>
-                </div>
-
-                <div class="bg-[#07101a] p-8 rounded-2xl border border-white/5 hover:border-blue-500/40 card-glow transition duration-500 group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M0 12V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm6.79-6.907A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Produção de Conteúdo</h3>
-                    <p class="text-white/55 text-sm leading-relaxed">Vídeos, reels, fotos e criativos que param o scroll e geram ação. Estrutura própria de captação — entregamos conteúdo de alto impacto com consistência.</p>
-                    <div class="mt-5 pt-5 border-t border-white/5 flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Reels</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Vídeo Ads</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Fotografia</span>
-                    </div>
-                </div>
-
-                <div class="bg-[#07101a] p-8 rounded-2xl border border-white/5 hover:border-blue-500/40 card-glow transition duration-500 group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Branding & Identidade</h3>
-                    <p class="text-white/55 text-sm leading-relaxed">Construímos marcas que transmitem credibilidade antes de qualquer palavra. Logotipo, manual de marca, tom de voz e posicionamento estratégico.</p>
-                    <div class="mt-5 pt-5 border-t border-white/5 flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Identidade Visual</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Tom de Voz</span>
-                    </div>
-                </div>
-
-                <div class="bg-[#07101a] p-8 rounded-2xl border border-white/5 hover:border-blue-500/40 card-glow transition duration-500 group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Landing Pages & Sites</h3>
-                    <p class="text-white/55 text-sm leading-relaxed">Páginas otimizadas para conversão, integradas com CRM e pixels de rastreamento. De leads a vendas — cada clique bem aproveitado.</p>
-                    <div class="mt-5 pt-5 border-t border-white/5 flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Landing Pages</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Sites</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">CRO</span>
-                    </div>
-                </div>
-
-                <div class="bg-[#07101a] p-8 rounded-2xl border border-white/5 hover:border-blue-500/40 card-glow transition duration-500 group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.589 0 0 3.589 0 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8zm0 14.5c-3.584 0-6.5-2.916-6.5-6.5S4.416 1.5 8 1.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5z"/><path d="M8 3a5 5 0 1 0 0 10A5 5 0 0 0 8 3zm0 8.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/><path d="M8 5a3 3 0 1 0 0 6A3 3 0 0 0 8 5zm0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Captação Aérea & Imobiliário</h3>
-                    <p class="text-white/55 text-sm leading-relaxed">Imagens aéreas e vídeos institucionais para construtoras, loteamentos e imóveis de alto padrão. Transformamos empreendimentos em desejo de compra.</p>
-                    <div class="mt-5 pt-5 border-t border-white/5 flex flex-wrap gap-2">
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Drone</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Imobiliário</span>
-                        <span class="px-2 py-1 bg-white/5 rounded text-white/40 text-xs">Corporativo</span>
-                    </div>
-                </div>
-
-            </div>
+    <div class="bg-blue-600 py-3 overflow-hidden select-none">
+        <div class="ticker-track">
+            <!-- set 1 -->
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">T3 STUDIO</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">AGÊNCIA DE MARKETING</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">TRÁFEGO PAGO</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">GESTÃO DE REDES</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">PRODUÇÃO DE CONTEÚDO</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">BRANDING</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">RONDONÓPOLIS-MT</span>
+            <span class="text-white/60 px-2">•</span>
+            <!-- set 2 (duplicate for loop) -->
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">T3 STUDIO</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">AGÊNCIA DE MARKETING</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">TRÁFEGO PAGO</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">GESTÃO DE REDES</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">PRODUÇÃO DE CONTEÚDO</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">BRANDING</span>
+            <span class="text-white/60 px-2">•</span>
+            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">RONDONÓPOLIS-MT</span>
+            <span class="text-white/60 px-2">•</span>
         </div>
-    </section>
+    </div>
 
-    <!-- ── CASES / PORTFOLIO ── -->
-    <section id="resultados" class="py-28 px-6 relative z-10 bg-[#050a0f]">
-        <div class="container mx-auto max-w-6xl">
-            <div class="text-center mb-16">
-                <div class="inline-block px-3 py-1 mb-5 border border-blue-500/30 rounded-full bg-blue-500/10 text-xs font-bold uppercase tracking-widest text-blue-400">
-                    Resultados Reais
-                </div>
-                <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-4">Cases de Sucesso</h2>
-                <p class="text-white/55 max-w-2xl mx-auto text-lg font-light">Veja o trabalho que entregamos — conteúdo pensado estrategicamente para gerar impacto real nas marcas dos nossos clientes.</p>
-            </div>
+    <div class="border-b-2 line-accent"></div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
-                <div class="flex flex-col gap-5 group">
-                    <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:border-blue-500/30 transition duration-500 aspect-[9/16] bg-[#050a0f]">
-                        <iframe src="https://player.vimeo.com/video/1177812975?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" title="Fast Imóveis"></iframe>
-                    </div>
-                    <div class="px-2">
-                        <span class="text-blue-400 text-xs font-bold uppercase tracking-widest block mb-1">Mercado Imobiliário</span>
-                        <h3 class="text-white font-black text-xl uppercase tracking-tighter mb-1">Fast Imóveis</h3>
-                        <p class="text-white/45 text-sm">Campanha de lançamento com conteúdo audiovisual e tráfego pago integrados.</p>
-                    </div>
-                </div>
+    <!-- ══════════════════════════════
+         ABOUT / MANIFESTO
+    ══════════════════════════════ -->
+    <section id="agencia" class="py-32 px-6 border-b border-white/8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
 
-                <div class="flex flex-col gap-5 group">
-                    <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:border-blue-500/30 transition duration-500 aspect-[9/16] bg-[#050a0f]">
-                        <iframe src="https://player.vimeo.com/video/1177813011?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" title="Showreel Mafro"></iframe>
-                    </div>
-                    <div class="px-2">
-                        <span class="text-blue-400 text-xs font-bold uppercase tracking-widest block mb-1">Corporativo & Frota</span>
-                        <h3 class="text-white font-black text-xl uppercase tracking-tighter mb-1">Mafro</h3>
-                        <p class="text-white/45 text-sm">Identidade audiovisual para posicionamento corporativo e geração de autoridade.</p>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-5 group">
-                    <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] group-hover:border-blue-500/30 transition duration-500 aspect-[9/16] bg-[#050a0f]">
-                        <iframe src="https://player.vimeo.com/video/1177812991?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" title="Showreel Drone"></iframe>
-                    </div>
-                    <div class="px-2">
-                        <span class="text-blue-400 text-xs font-bold uppercase tracking-widest block mb-1">Captação Aérea</span>
-                        <h3 class="text-white font-black text-xl uppercase tracking-tighter mb-1">Showreel Drone</h3>
-                        <p class="text-white/45 text-sm">Perspectiva aérea para empreendimentos e infraestrutura de alto padrão.</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="text-center mt-16">
-                <a href="https://wa.me/5566999427636" onclick="fbq('track', 'Contact');" target="_blank"
-                   class="inline-block px-10 py-4 border border-white/20 text-white rounded-sm hover:bg-white/5 transition backdrop-blur-sm uppercase tracking-widest font-bold text-sm">
-                    Quero Resultados Como Esses
+            <div class="lg:sticky lg:top-28">
+                <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-6">A Agência</p>
+                <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight leading-tight mb-8">
+                    Marketing que<br/>move o ponteiro.
+                </h2>
+                <p class="text-white/55 text-lg font-light leading-relaxed mb-10">
+                    Enquanto outras agências vendem post bonito, a T3 entrega crescimento. Unimos estratégia de dados, produção de conteúdo de alto impacto e gestão de tráfego pago em uma estrutura integrada — projetada para uma única coisa: resultado no seu faturamento.
+                </p>
+                <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+                   class="inline-flex items-center gap-3 text-blue-400 font-semibold text-sm uppercase tracking-widest hover:text-white transition-colors group">
+                    Conversar com a equipe
+                    <svg class="transition-transform group-hover:translate-x-1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
                 </a>
             </div>
+
+            <div class="space-y-0">
+                <div class="flex gap-6 items-start py-8 border-b border-white/8">
+                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">01</span>
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-2">Diagnóstico de Marca</h3>
+                        <p class="text-white/45 text-sm leading-relaxed">Mapeamos onde você está e onde precisa chegar. Sem achismo — só dados do seu mercado.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start py-8 border-b border-white/8">
+                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">02</span>
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-2">Estratégia Personalizada</h3>
+                        <p class="text-white/45 text-sm leading-relaxed">Plano de ação com canais, verba e metas definidas. Adaptado ao seu segmento, não genérico.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start py-8 border-b border-white/8">
+                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">03</span>
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-2">Execução & Conteúdo</h3>
+                        <p class="text-white/45 text-sm leading-relaxed">Produzimos, publicamos e gerenciamos tudo. Estrutura própria — sem terceiros no meio.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start py-8">
+                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">04</span>
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-2">Otimização Contínua</h3>
+                        <p class="text-white/45 text-sm leading-relaxed">Relatórios mensais, ajustes constantes e metas escaladas. Resultado que cresce mês a mês.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- ── TESTIMONIALS ── -->
-    <section class="py-20 px-6 relative z-10 border-y border-white/5 bg-[#02060a] overflow-hidden">
-        <div class="text-center mb-12">
-            <div class="inline-block px-3 py-1 mb-4 border border-blue-500/30 rounded-full bg-blue-500/10 text-xs font-bold uppercase tracking-widest text-blue-400">
-                O que dizem sobre nós
+
+    <!-- ══════════════════════════════
+         SERVICES
+    ══════════════════════════════ -->
+    <section id="servicos" class="py-32 px-6 border-b border-white/8">
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div>
+                    <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-4">Soluções</p>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight leading-tight">
+                        Tudo que sua<br/>marca precisa.
+                    </h2>
+                </div>
+                <p class="text-white/45 text-sm max-w-xs leading-relaxed">
+                    De zero a escala — ecossistema completo para negócios que querem crescer de verdade.
+                </p>
             </div>
-            <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">Clientes que cresceram.</h2>
+
+            <div>
+                <div class="svc-item group flex items-center justify-between py-7 cursor-default transition-colors hover:bg-white/[.02] px-2 -mx-2">
+                    <div class="flex items-center gap-8">
+                        <span class="svc-num text-white/25 font-black text-sm w-8 transition-colors duration-300">01</span>
+                        <h3 class="text-white font-bold text-xl md:text-2xl tracking-tight">Tráfego Pago</h3>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="hidden sm:flex gap-2 flex-wrap">
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Meta Ads</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Google Ads</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">TikTok Ads</span>
+                        </span>
+                        <svg class="svc-arrow w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="svc-item group flex items-center justify-between py-7 cursor-default transition-colors hover:bg-white/[.02] px-2 -mx-2">
+                    <div class="flex items-center gap-8">
+                        <span class="svc-num text-white/25 font-black text-sm w-8 transition-colors duration-300">02</span>
+                        <h3 class="text-white font-bold text-xl md:text-2xl tracking-tight">Gestão de Redes Sociais</h3>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="hidden sm:flex gap-2">
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Instagram</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Facebook</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">LinkedIn</span>
+                        </span>
+                        <svg class="svc-arrow w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="svc-item group flex items-center justify-between py-7 cursor-default transition-colors hover:bg-white/[.02] px-2 -mx-2">
+                    <div class="flex items-center gap-8">
+                        <span class="svc-num text-white/25 font-black text-sm w-8 transition-colors duration-300">03</span>
+                        <h3 class="text-white font-bold text-xl md:text-2xl tracking-tight">Produção de Conteúdo</h3>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="hidden sm:flex gap-2">
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Reels</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Vídeo Ads</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Fotografia</span>
+                        </span>
+                        <svg class="svc-arrow w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="svc-item group flex items-center justify-between py-7 cursor-default transition-colors hover:bg-white/[.02] px-2 -mx-2">
+                    <div class="flex items-center gap-8">
+                        <span class="svc-num text-white/25 font-black text-sm w-8 transition-colors duration-300">04</span>
+                        <h3 class="text-white font-bold text-xl md:text-2xl tracking-tight">Branding & Identidade</h3>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="hidden sm:flex gap-2">
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Identidade Visual</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Tom de Voz</span>
+                        </span>
+                        <svg class="svc-arrow w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="svc-item group flex items-center justify-between py-7 cursor-default transition-colors hover:bg-white/[.02] px-2 -mx-2">
+                    <div class="flex items-center gap-8">
+                        <span class="svc-num text-white/25 font-black text-sm w-8 transition-colors duration-300">05</span>
+                        <h3 class="text-white font-bold text-xl md:text-2xl tracking-tight">Landing Pages & Sites</h3>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="hidden sm:flex gap-2">
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Landing Pages</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">CRO</span>
+                        </span>
+                        <svg class="svc-arrow w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="svc-item group flex items-center justify-between py-7 cursor-default transition-colors hover:bg-white/[.02] px-2 -mx-2">
+                    <div class="flex items-center gap-8">
+                        <span class="svc-num text-white/25 font-black text-sm w-8 transition-colors duration-300">06</span>
+                        <h3 class="text-white font-bold text-xl md:text-2xl tracking-tight">Captação Aérea & Imobiliário</h3>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="hidden sm:flex gap-2">
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Drone</span>
+                            <span class="text-white/30 text-xs border border-white/10 px-2.5 py-1">Imobiliário</span>
+                        </span>
+                        <svg class="svc-arrow w-5 h-5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
+
+
+    <!-- ══════════════════════════════
+         CASES
+    ══════════════════════════════ -->
+    <section id="resultados" class="py-32 px-6 border-b border-white/8">
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div>
+                    <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-4">Portfólio</p>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight leading-tight">
+                        Cases de<br/>Sucesso.
+                    </h2>
+                </div>
+                <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+                   class="inline-flex items-center gap-2 text-blue-400 font-semibold text-sm uppercase tracking-widest hover:text-white transition-colors group self-start md:self-auto">
+                    Quero resultados assim
+                    <svg class="transition-transform group-hover:translate-x-1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <div class="group">
+                    <div class="relative overflow-hidden border border-white/8 group-hover:border-blue-500/40 transition-colors duration-500 aspect-[9/16] bg-black">
+                        <iframe src="https://player.vimeo.com/video/1177812975?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
+                    </div>
+                    <div class="mt-5">
+                        <p class="text-blue-400 text-[10px] font-semibold uppercase tracking-[.15em] mb-1">Mercado Imobiliário</p>
+                        <h3 class="text-white font-black text-lg uppercase tracking-tight">Fast Imóveis</h3>
+                        <p class="text-white/35 text-sm mt-1">Campanha de lançamento com conteúdo audiovisual e tráfego integrados.</p>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <div class="relative overflow-hidden border border-white/8 group-hover:border-blue-500/40 transition-colors duration-500 aspect-[9/16] bg-black">
+                        <iframe src="https://player.vimeo.com/video/1177813011?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
+                    </div>
+                    <div class="mt-5">
+                        <p class="text-blue-400 text-[10px] font-semibold uppercase tracking-[.15em] mb-1">Corporativo & Frota</p>
+                        <h3 class="text-white font-black text-lg uppercase tracking-tight">Mafro</h3>
+                        <p class="text-white/35 text-sm mt-1">Identidade audiovisual para posicionamento corporativo e autoridade de marca.</p>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <div class="relative overflow-hidden border border-white/8 group-hover:border-blue-500/40 transition-colors duration-500 aspect-[9/16] bg-black">
+                        <iframe src="https://player.vimeo.com/video/1177812991?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
+                    </div>
+                    <div class="mt-5">
+                        <p class="text-blue-400 text-[10px] font-semibold uppercase tracking-[.15em] mb-1">Captação Aérea</p>
+                        <h3 class="text-white font-black text-lg uppercase tracking-tight">Showreel Drone</h3>
+                        <p class="text-white/35 text-sm mt-1">Perspectiva aérea para empreendimentos e infraestrutura de alto padrão.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════
+         REVIEWS TICKER
+    ══════════════════════════════ -->
+    <section class="py-24 border-b border-white/8 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 mb-12">
+            <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-4">Depoimentos</p>
+            <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Clientes que cresceram.</h2>
+        </div>
+
         <div class="overflow-hidden">
-            <div class="ticker">
-                <!-- First set -->
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"A T3 transformou como a nossa marca aparece no digital. Em 3 meses triplicamos o volume de leads no imobiliário."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">R</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">Rafael M.</p>
-                            <p class="text-white/40 text-xs">Diretor Comercial · Fast Imóveis</p>
-                        </div>
+            <div class="reviews-track">
+                <!-- set 1 -->
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"A T3 transformou como a nossa marca aparece no digital. Em 3 meses triplicamos o volume de leads no imobiliário."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">Rafael M.</p>
+                        <p class="text-white/35 text-xs mt-0.5">Diretor Comercial · Fast Imóveis</p>
                     </div>
                 </div>
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"Profissionalismo do início ao fim. O conteúdo que produzem é completamente diferente do que víamos no mercado local."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">C</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">Camila S.</p>
-                            <p class="text-white/40 text-xs">CEO · Rede de Franquias</p>
-                        </div>
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Profissionalismo do início ao fim. O conteúdo que produzem é completamente diferente do que víamos no mercado local."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">Camila S.</p>
+                        <p class="text-white/35 text-xs mt-0.5">CEO · Rede de Franquias</p>
                     </div>
                 </div>
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"Gestão de tráfego precisa e conteúdo alinhado. O ROAS das nossas campanhas melhorou 4x desde que começamos com a T3."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">A</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">André L.</p>
-                            <p class="text-white/40 text-xs">Sócio · Grupo Empresarial MT</p>
-                        </div>
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Gestão de tráfego precisa e conteúdo alinhado. O ROAS das nossas campanhas melhorou 4x desde que começamos com a T3."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">André L.</p>
+                        <p class="text-white/35 text-xs mt-0.5">Sócio · Grupo Empresarial MT</p>
                     </div>
                 </div>
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"Finalmente uma agência que entrega o que promete. Relatório mensal detalhado e atendimento direto — sem enrolação."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">P</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">Patricia O.</p>
-                            <p class="text-white/40 text-xs">Diretora · Clínica Estética</p>
-                        </div>
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Finalmente uma agência que entrega o que promete. Relatório mensal detalhado e atendimento direto — sem enrolação."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">Patricia O.</p>
+                        <p class="text-white/35 text-xs mt-0.5">Diretora · Clínica Estética</p>
                     </div>
                 </div>
-                <!-- Duplicate set for seamless loop -->
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"A T3 transformou como a nossa marca aparece no digital. Em 3 meses triplicamos o volume de leads no imobiliário."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">R</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">Rafael M.</p>
-                            <p class="text-white/40 text-xs">Diretor Comercial · Fast Imóveis</p>
-                        </div>
+                <!-- set 2 duplicate -->
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"A T3 transformou como a nossa marca aparece no digital. Em 3 meses triplicamos o volume de leads no imobiliário."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">Rafael M.</p>
+                        <p class="text-white/35 text-xs mt-0.5">Diretor Comercial · Fast Imóveis</p>
                     </div>
                 </div>
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"Profissionalismo do início ao fim. O conteúdo que produzem é completamente diferente do que víamos no mercado local."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">C</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">Camila S.</p>
-                            <p class="text-white/40 text-xs">CEO · Rede de Franquias</p>
-                        </div>
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Profissionalismo do início ao fim. O conteúdo que produzem é completamente diferente do que víamos no mercado local."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">Camila S.</p>
+                        <p class="text-white/35 text-xs mt-0.5">CEO · Rede de Franquias</p>
                     </div>
                 </div>
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"Gestão de tráfego precisa e conteúdo alinhado. O ROAS das nossas campanhas melhorou 4x desde que começamos com a T3."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">A</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">André L.</p>
-                            <p class="text-white/40 text-xs">Sócio · Grupo Empresarial MT</p>
-                        </div>
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Gestão de tráfego precisa e conteúdo alinhado. O ROAS das nossas campanhas melhorou 4x desde que começamos com a T3."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">André L.</p>
+                        <p class="text-white/35 text-xs mt-0.5">Sócio · Grupo Empresarial MT</p>
                     </div>
                 </div>
-                <div class="shrink-0 w-80 bg-[#07101a] border border-white/8 rounded-2xl p-6">
-                    <div class="flex gap-1 mb-3">
-                        <span class="text-yellow-400 text-sm">★★★★★</span>
-                    </div>
-                    <p class="text-white/70 text-sm leading-relaxed mb-4">"Finalmente uma agência que entrega o que promete. Relatório mensal detalhado e atendimento direto — sem enrolação."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">P</div>
-                        <div>
-                            <p class="text-white text-sm font-semibold">Patricia O.</p>
-                            <p class="text-white/40 text-xs">Diretora · Clínica Estética</p>
-                        </div>
+                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
+                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
+                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Finalmente uma agência que entrega o que promete. Relatório mensal detalhado e atendimento direto — sem enrolação."</p>
+                    <div>
+                        <p class="text-white font-semibold text-sm">Patricia O.</p>
+                        <p class="text-white/35 text-xs mt-0.5">Diretora · Clínica Estética</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ── CTA ── -->
-    <section id="contato" class="py-36 px-6 relative z-10 border-t border-white/5 bg-[url('https://images.unsplash.com/photo-1617427326325-69301e746cc2?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center bg-fixed bg-no-repeat">
-        <div class="absolute inset-0 bg-[#050a0f]/92 backdrop-blur-sm"></div>
-        <div class="container mx-auto max-w-3xl text-center relative z-20">
-            <div class="inline-block px-3 py-1 mb-6 border border-blue-500/30 rounded-full bg-blue-500/10 text-xs font-bold uppercase tracking-widest text-blue-400">
-                Próximo passo
-            </div>
-            <h2 class="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tight text-white leading-tight">
+
+    <!-- ══════════════════════════════
+         CTA
+    ══════════════════════════════ -->
+    <section id="contato" class="py-40 px-6 relative overflow-hidden border-b border-white/8">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="w-[500px] h-[500px] bg-blue-600/8 blur-[140px] rounded-full"></div>
+        </div>
+        <div class="max-w-4xl mx-auto text-center relative">
+            <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-8">Próximo passo</p>
+            <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight leading-tight mb-8">
                 Pronto para<br/>crescer de verdade?
             </h2>
-            <p class="text-white/65 mb-10 text-lg font-light max-w-xl mx-auto">
-                Fale com nossa equipe agora. Em 24h entendemos seu negócio e te apresentamos um plano de ação.
+            <p class="text-white/45 text-lg font-light mb-14 max-w-lg mx-auto leading-relaxed">
+                Fale com nossa equipe agora. Em 24h entendemos seu negócio e apresentamos um plano de ação.
             </p>
-            <a href="https://wa.me/5566999427636" onclick="fbq('track', 'Contact');" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center justify-center gap-3 px-12 py-5 bg-[#25D366] text-white font-black uppercase tracking-wide rounded-sm hover:bg-[#1ebd5a] transition duration-300 shadow-[0_0_50px_rgba(37,211,102,0.3)] hover:shadow-[0_0_60px_rgba(37,211,102,0.5)] transform hover:-translate-y-1 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+            <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank" rel="noopener noreferrer"
+               class="cta-btn inline-flex items-center gap-3 px-12 py-5 bg-[#25D366] text-white font-black uppercase tracking-wide hover:bg-[#1ebd5a] transition-all duration-300 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
                 </svg>
                 Quero Meu Plano de Crescimento
             </a>
-            <p class="text-white/30 text-xs mt-6 uppercase tracking-widest">Resposta em até 24 horas · Diagnóstico gratuito</p>
+            <p class="text-white/25 text-xs mt-6 tracking-[.15em] uppercase">Diagnóstico gratuito · Resposta em até 24 horas</p>
         </div>
     </section>
 
-    <!-- ── FOOTER ── -->
-    <footer class="py-12 px-6 text-center text-white/35 text-xs border-t border-white/5 relative z-10 bg-[#02060a]">
-        <div class="mb-4 text-white/70 font-black tracking-widest uppercase text-base flex items-center justify-center gap-2">
-            <span class="w-2.5 h-2.5 bg-blue-500 rounded-full"></span>
-            T3 STUDIO
+
+    <!-- ══════════════════════════════
+         FOOTER
+    ══════════════════════════════ -->
+    <footer class="py-10 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <span class="font-black tracking-tighter text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                T3 STUDIO
+            </span>
+            <p class="text-white/25 text-xs tracking-wide">&copy; 2026 T3 Studio · Rondonópolis, MT · Agência de Marketing</p>
+            <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+               class="text-white/40 hover:text-white text-xs uppercase tracking-widest transition-colors">
+                WhatsApp
+            </a>
         </div>
-        <p class="mb-2 text-white/40">Agência de Marketing Full Service</p>
-        <p>&copy; 2026 T3 Studio. Rondonópolis, MT. Todos os direitos reservados.</p>
     </footer>
 
 </body>
