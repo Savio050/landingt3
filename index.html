@@ -133,6 +133,44 @@
 
         /* Rule */
         hr.rule { border: none; border-top: 1px solid rgba(240,238,235,.08); }
+
+        /* ─── Bento service grid ─── */
+        .svc-bento {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .svc-bc {
+            background: rgba(240,238,235,.025);
+            border: 1px solid rgba(240,238,235,.07);
+            border-radius: 14px;
+            padding: 2rem 2rem 2.25rem;
+            display: flex;
+            flex-direction: column;
+            transition: border-color .25s, background .25s;
+            cursor: default;
+        }
+        .svc-bc:hover {
+            border-color: rgba(37,99,235,.38);
+            background: rgba(37,99,235,.04);
+        }
+        .svc-bvisual {
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            grid-row: span 2;
+        }
+        .svc-bspan2 { grid-column: span 2; }
+        @media (max-width: 960px) {
+            .svc-bento { grid-template-columns: 1fr 1fr; }
+            .svc-bvisual { grid-row: auto; grid-column: span 2; min-height: 220px; }
+            .svc-bspan2 { grid-column: span 2; }
+        }
+        @media (max-width: 560px) {
+            .svc-bento { grid-template-columns: 1fr; }
+            .svc-bvisual { grid-column: span 1; min-height: 200px; }
+            .svc-bspan2 { grid-column: span 1; }
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -205,8 +243,9 @@
     <div style="max-width:1280px;margin:0 auto">
 
         <!-- Pull quote -->
-        <div style="max-width:900px;margin-bottom:6rem">
-            <h2 class="display" style="font-size:clamp(2rem,4.5vw,3.8rem);font-weight:300;color:var(--text);line-height:1.15">
+        <div style="max-width:900px;margin-bottom:6rem;padding-left:1.5rem;border-left:3px solid var(--blue)">
+            <p style="font-size:11px;color:var(--blue);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem">A Agência</p>
+            <h2 class="display" style="font-size:clamp(2.2rem,5vw,4.5rem);font-weight:300;color:var(--text);line-height:1.1">
                 Enquanto outras agências vendem post bonito,<br>
                 <span style="font-weight:700">a T3 entrega crescimento.</span>
             </h2>
@@ -264,68 +303,91 @@
             </p>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;background:rgba(240,238,235,.06)">
+        <div class="svc-bento">
 
-            <!-- Card 01 -->
-            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
-                <div class="svc-img" style="position:absolute;inset:0;background:url('trafego-pago.jpg') center/cover"></div>
-                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
-                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
-                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">01</span>
-                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Tráfego Pago</h3>
+            <!-- Card 01: Tráfego Pago -->
+            <div class="svc-bc">
+                <svg style="margin-bottom:1.5rem;flex-shrink:0;color:var(--text)" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+                <span style="font-size:10px;color:rgba(240,238,235,.25);font-weight:500;letter-spacing:.08em;margin-bottom:.5rem;display:block">01</span>
+                <h3 class="display" style="font-size:1.55rem;font-weight:700;color:var(--text);line-height:1.1;margin-bottom:.85rem">Tráfego Pago</h3>
+                <p style="color:var(--muted);font-size:.875rem;line-height:1.7;font-weight:300;margin-top:auto">
+                    <strong style="color:rgba(240,238,235,.72);font-weight:500">Anúncios no Google e Meta</strong> gerenciados para atrair clientes prontos para comprar.
+                </p>
+            </div>
+
+            <!-- Card 02: Redes Sociais -->
+            <div class="svc-bc">
+                <svg style="margin-bottom:1.5rem;flex-shrink:0;color:var(--text)" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                <span style="font-size:10px;color:rgba(240,238,235,.25);font-weight:500;letter-spacing:.08em;margin-bottom:.5rem;display:block">02</span>
+                <h3 class="display" style="font-size:1.55rem;font-weight:700;color:var(--text);line-height:1.1;margin-bottom:.85rem">Gestão de Redes Sociais</h3>
+                <p style="color:var(--muted);font-size:.875rem;line-height:1.7;font-weight:300;margin-top:auto">
+                    <strong style="color:rgba(240,238,235,.72);font-weight:500">Presença e engajamento</strong> nas plataformas que mais importam para o seu negócio.
+                </p>
+            </div>
+
+            <!-- Visual accent (col 3, rows 1-2) -->
+            <div class="svc-bvisual">
+                <div style="position:absolute;inset:0;background:url('trafego-pago.jpg') center/cover"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(12,12,12,.38) 0%,rgba(12,12,12,.84) 100%)"></div>
+                <div style="position:absolute;bottom:2.25rem;left:2rem;right:2rem">
+                    <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:300;color:rgba(240,238,235,.5);line-height:1.45;letter-spacing:-.01em">
+                        Estratégia integrada,<br>do anúncio à venda.
+                    </p>
                 </div>
             </div>
 
-            <!-- Card 02 -->
-            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
-                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
-                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
-                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
-                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">02</span>
-                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Gestão de Redes Sociais</h3>
-                </div>
+            <!-- Card 03: Produção de Conteúdo -->
+            <div class="svc-bc">
+                <svg style="margin-bottom:1.5rem;flex-shrink:0;color:var(--text)" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="15" height="10" rx="2"/><polyline points="17,8 22,5 22,19 17,16"/>
+                </svg>
+                <span style="font-size:10px;color:rgba(240,238,235,.25);font-weight:500;letter-spacing:.08em;margin-bottom:.5rem;display:block">03</span>
+                <h3 class="display" style="font-size:1.55rem;font-weight:700;color:var(--text);line-height:1.1;margin-bottom:.85rem">Produção de Conteúdo</h3>
+                <p style="color:var(--muted);font-size:.875rem;line-height:1.7;font-weight:300;margin-top:auto">
+                    <strong style="color:rgba(240,238,235,.72);font-weight:500">Vídeos e peças criativas</strong> produzidos na nossa estrutura, sem terceiros nem atrasos.
+                </p>
             </div>
 
-            <!-- Card 03 -->
-            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
-                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
-                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
-                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
-                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">03</span>
-                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Produção de Conteúdo</h3>
-                </div>
+            <!-- Card 04: Branding & Identidade -->
+            <div class="svc-bc">
+                <svg style="margin-bottom:1.5rem;flex-shrink:0;color:var(--text)" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+                <span style="font-size:10px;color:rgba(240,238,235,.25);font-weight:500;letter-spacing:.08em;margin-bottom:.5rem;display:block">04</span>
+                <h3 class="display" style="font-size:1.55rem;font-weight:700;color:var(--text);line-height:1.1;margin-bottom:.85rem">Branding & Identidade</h3>
+                <p style="color:var(--muted);font-size:.875rem;line-height:1.7;font-weight:300;margin-top:auto">
+                    <strong style="color:rgba(240,238,235,.72);font-weight:500">Identidade visual</strong> que diferencia sua marca e gera reconhecimento imediato no mercado.
+                </p>
             </div>
 
-            <!-- Card 04 -->
-            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
-                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
-                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
-                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
-                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">04</span>
-                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Branding & Identidade</h3>
-                </div>
-            </div>
-
-            <!-- Card 05 -->
-            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
-                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
-                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
-                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
-                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">05</span>
-                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Landing Pages & Sites</h3>
-                </div>
+            <!-- Card 05: Landing Pages (span 2) -->
+            <div class="svc-bc svc-bspan2">
+                <svg style="margin-bottom:1.5rem;flex-shrink:0;color:var(--text)" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
+                <span style="font-size:10px;color:rgba(240,238,235,.25);font-weight:500;letter-spacing:.08em;margin-bottom:.5rem;display:block">05</span>
+                <h3 class="display" style="font-size:1.55rem;font-weight:700;color:var(--text);line-height:1.1;margin-bottom:.85rem">Landing Pages & Sites</h3>
+                <p style="color:var(--muted);font-size:.875rem;line-height:1.7;font-weight:300;max-width:520px">
+                    <strong style="color:rgba(240,238,235,.72);font-weight:500">Páginas criadas para converter</strong> — de sites institucionais a funis completos de venda.
+                </p>
             </div>
 
             <!-- CTA slot -->
-            <div style="background:var(--bg);min-height:260px;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end">
-                <p style="color:var(--muted);font-size:.9rem;line-height:1.6;font-weight:300;margin-bottom:1.5rem">
-                    Quer saber qual serviço faz mais sentido para o seu negócio agora?
+            <div class="svc-bc" style="justify-content:flex-end;border-color:rgba(37,99,235,.14);background:rgba(37,99,235,.022)">
+                <p style="color:var(--muted);font-size:.875rem;line-height:1.65;margin-bottom:1.5rem;font-weight:300">
+                    Qual serviço faz mais sentido para o seu negócio agora?
                 </p>
                 <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
-                   style="font-size:13px;font-weight:600;color:#93c5fd;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:color .2s"
+                   style="display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:600;color:#93c5fd;text-decoration:none;transition:color .2s"
                    onmouseover="this.style.color='#f0eeeb'" onmouseout="this.style.color='#93c5fd'">
                     Conversar com a equipe
-                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
 
