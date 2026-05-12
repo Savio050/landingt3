@@ -22,537 +22,489 @@
     /></noscript>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --blue: #3b82f6;
-            --blue-dim: rgba(59,130,246,0.15);
+            --blue: #2563eb;
+            --bg:   #0c0c0c;
+            --text: #f0eeeb;
+            --muted: rgba(240,238,235,.42);
         }
 
-        * { box-sizing: border-box; }
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: #080808;
-            color: #ffffff;
-            scroll-behavior: smooth;
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ── Ticker ── */
-        .ticker-track {
-            display: flex;
-            width: max-content;
-            animation: ticker-move 25s linear infinite;
-        }
-        @keyframes ticker-move {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
+        h1, h2, h3, h4, .display {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
         }
 
-        /* ── Testimonials ── */
-        .reviews-track {
-            display: flex;
-            gap: 1.5rem;
-            animation: ticker-move 40s linear infinite;
-        }
-
-        /* ── Fade up ── */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(28px); }
+        /* Reveal */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-        .fade-up { animation: fadeUp 0.75s cubic-bezier(.22,1,.36,1) both; }
-        .d1 { animation-delay: .05s; }
-        .d2 { animation-delay: .18s; }
-        .d3 { animation-delay: .31s; }
+        .rev   { animation: reveal .9s cubic-bezier(.16,1,.3,1) both; }
+        .rev-1 { animation-delay: .08s; }
+        .rev-2 { animation-delay: .22s; }
+        .rev-3 { animation-delay: .36s; }
 
-        /* ── Scroll indicator ── */
-        @keyframes scrollBounce {
-            0%, 100% { transform: translateY(0); }
-            50%       { transform: translateY(6px); }
+        /* Nav underline */
+        .nav-a {
+            position: relative;
+            color: rgba(240,238,235,.5);
+            font-size: 13px;
+            text-decoration: none;
+            transition: color .2s;
         }
-        .scroll-bounce { animation: scrollBounce 1.8s ease-in-out infinite; }
+        .nav-a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 0;
+            width: 0; height: 1px;
+            background: var(--text);
+            transition: width .25s ease;
+        }
+        .nav-a:hover { color: var(--text); }
+        .nav-a:hover::after { width: 100%; }
 
-        /* ── Divider line (blue) ── */
-        .line-accent { border-color: var(--blue); }
+        /* Image zoom on service cards */
+        .svc-img {
+            transition: transform .9s cubic-bezier(.16,1,.3,1);
+            transform: scale(1.04);
+        }
+        .svc-card:hover .svc-img { transform: scale(1.1); }
 
-        /* ── Service item hover ── */
-        .svc-item { border-bottom: 1px solid rgba(255,255,255,0.07); }
-        .svc-item:last-child { border-bottom: none; }
-        .svc-item:hover .svc-num { color: var(--blue); }
-        .svc-item:hover .svc-arrow { opacity: 1; transform: translate(0,0); }
+        /* Case card */
+        .case-card iframe { display: block; }
 
-        .svc-arrow {
-            opacity: 0;
-            transform: translate(-6px, 6px);
-            transition: opacity .3s, transform .3s;
+        /* Blockquote mark */
+        .quote-mark {
+            font-family: 'Bricolage Grotesque', serif;
+            font-size: 6rem;
+            line-height: .7;
+            color: var(--blue);
+            display: block;
+            margin-bottom: 1rem;
+            opacity: .9;
         }
 
-        /* ── CTA glow ── */
-        .cta-btn:hover {
-            box-shadow: 0 0 40px rgba(37,211,102,0.4);
+        /* Button base */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all .2s;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: var(--text);
+            color: #0c0c0c;
+            padding: .85rem 2rem;
+            border-radius: 2px;
+        }
+        .btn-primary:hover { background: #d4e4ff; }
+
+        .btn-ghost {
+            color: var(--text);
+            padding: .85rem 2rem;
+            border: 1px solid rgba(240,238,235,.18);
+            border-radius: 2px;
+        }
+        .btn-ghost:hover {
+            border-color: rgba(37,99,235,.6);
+            color: #93c5fd;
         }
 
-        @media (max-width: 640px) {
-            .hero-title { font-size: 2.8rem; line-height: 1.05; }
-        }
+        /* Rule */
+        hr.rule { border: none; border-top: 1px solid rgba(240,238,235,.08); }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden">
+<body class="overflow-x-hidden">
 
-    <!-- ══════════════════════════════
-         HEADER
-    ══════════════════════════════ -->
-    <header class="fixed w-full top-0 z-50 border-b border-white/8 bg-[#080808]/90 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <span class="text-white font-black tracking-tighter text-xl flex items-center gap-2.5">
-                <span class="block w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                T3 STUDIO
-            </span>
+<!-- ─────────────────────────────────────
+     HEADER
+───────────────────────────────────── -->
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(12,12,12,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(240,238,235,.07)">
+    <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between">
 
-            <nav class="hidden md:flex gap-8 text-[11px] font-semibold tracking-[.12em] text-white/50 uppercase">
-                <a href="#inicio"     class="hover:text-white transition-colors">Início</a>
-                <a href="#agencia"    class="hover:text-white transition-colors">A Agência</a>
-                <a href="#servicos"   class="hover:text-white transition-colors">Serviços</a>
-                <a href="#resultados" class="hover:text-white transition-colors">Cases</a>
-            </nav>
+        <a href="#inicio" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.15rem;color:var(--text);text-decoration:none;letter-spacing:-.01em">
+            T3 Studio
+        </a>
 
-            <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
-               class="text-[11px] font-bold tracking-[.1em] uppercase px-5 py-2.5 border border-white/20 text-white hover:bg-white hover:text-black transition-colors duration-200">
-                Falar com a Equipe
+        <nav style="display:flex;gap:2rem" class="hidden md:flex">
+            <a href="#inicio"     class="nav-a">Início</a>
+            <a href="#agencia"    class="nav-a">A Agência</a>
+            <a href="#servicos"   class="nav-a">Serviços</a>
+            <a href="#resultados" class="nav-a">Cases</a>
+        </nav>
+
+        <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+           class="btn btn-primary" style="font-size:13px;padding:.6rem 1.4rem">
+            Falar com a equipe
+        </a>
+    </div>
+</header>
+
+
+<!-- ─────────────────────────────────────
+     HERO
+───────────────────────────────────── -->
+<section id="inicio" style="min-height:100vh;display:flex;align-items:center;padding:7rem 1.5rem 5rem;position:relative;overflow:hidden">
+
+    <!-- Geometric accent — right side vertical bar -->
+    <div style="position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--blue);opacity:.7"></div>
+    <!-- Large faint T3 watermark -->
+    <div style="position:absolute;right:5%;top:50%;transform:translateY(-50%);font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(180px,22vw,320px);font-weight:800;color:rgba(37,99,235,.04);line-height:1;letter-spacing:-.04em;user-select:none;pointer-events:none">T3</div>
+
+    <div style="max-width:1280px;margin:0 auto;width:100%">
+
+        <p class="rev rev-1" style="font-size:13px;font-weight:500;color:#93c5fd;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2rem">
+            Agência de Marketing — Rondonópolis, MT
+        </p>
+
+        <h1 class="rev rev-2 display"
+            style="font-size:clamp(3.2rem,8vw,7rem);font-weight:300;max-width:820px;margin-bottom:2.5rem;color:var(--text)">
+            O marketing que<br>
+            <em style="font-style:normal;font-weight:800;color:var(--blue)">escala</em> sua marca.
+        </h1>
+
+        <p class="rev rev-2" style="font-size:1.1rem;color:var(--muted);max-width:480px;line-height:1.7;margin-bottom:3rem;font-weight:300">
+            Estratégia, tráfego pago e produção de conteúdo — integrados para gerar resultado no seu faturamento.
+        </p>
+
+        <div class="rev rev-3" style="display:flex;flex-wrap:wrap;gap:1rem">
+            <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank" class="btn btn-primary">
+                Falar com a equipe
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
-        </div>
-    </header>
-
-
-    <!-- ══════════════════════════════
-         HERO
-    ══════════════════════════════ -->
-    <section id="inicio" class="min-h-screen flex flex-col justify-center px-6 pt-16 relative overflow-hidden">
-
-        <!-- Atmospheric background glow -->
-        <div class="absolute inset-0 -z-10">
-            <div class="absolute right-[-5%] top-[-10%] w-[70%] h-[120%] bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center opacity-25"></div>
-            <div class="absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-[#080808]/30"></div>
-            <div class="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#080808] to-transparent"></div>
-            <!-- Blue glow orb -->
-            <div class="absolute right-[15%] top-[20%] w-[500px] h-[500px] bg-blue-700/20 blur-[120px] rounded-full"></div>
-            <div class="absolute right-[30%] top-[40%] w-[300px] h-[300px] bg-blue-500/10 blur-[100px] rounded-full"></div>
+            <a href="#servicos" class="btn btn-ghost">Ver serviços</a>
         </div>
 
-        <div class="max-w-7xl mx-auto w-full">
+    </div>
+</section>
 
-            <!-- Headline -->
-            <h1 class="fade-up d1 hero-title text-[clamp(3rem,7vw,6.5rem)] font-light leading-[1.05] max-w-4xl mb-10" style="letter-spacing:-.02em">
-                O marketing que<br/>
-                <span class="font-black" style="color:var(--blue)">escala</span> sua marca.
-            </h1>
+<hr class="rule">
 
-            <!-- Badge -->
-            <div class="fade-up d2 inline-flex items-center gap-2.5 bg-white/8 border border-white/10 backdrop-blur-sm px-4 py-2.5 rounded-full mb-10">
-                <span class="text-yellow-400 text-base">⚡</span>
-                <span class="text-white/80 text-sm font-medium">Estratégias que aceleram resultados.</span>
+
+<!-- ─────────────────────────────────────
+     MANIFESTO / ABOUT
+───────────────────────────────────── -->
+<section id="agencia" style="padding:7rem 1.5rem">
+    <div style="max-width:1280px;margin:0 auto">
+
+        <!-- Pull quote -->
+        <div style="max-width:900px;margin-bottom:6rem">
+            <h2 class="display" style="font-size:clamp(2rem,4.5vw,3.8rem);font-weight:300;color:var(--text);line-height:1.15">
+                Enquanto outras agências vendem post bonito,<br>
+                <span style="font-weight:700">a T3 entrega crescimento.</span>
+            </h2>
+        </div>
+
+        <!-- Three-column statements -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:3rem 4rem;border-top:1px solid rgba(240,238,235,.08);padding-top:3.5rem">
+
+            <div>
+                <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;font-weight:600;color:var(--text);margin-bottom:.75rem">
+                    Dados, não intuição
+                </h3>
+                <p style="color:var(--muted);font-size:.95rem;line-height:1.7;font-weight:300">
+                    Cada decisão é embasada em métricas reais do seu negócio. Acabou o achismo.
+                </p>
             </div>
 
-            <!-- CTA -->
-            <div class="fade-up d3 flex flex-col sm:flex-row gap-4">
-                <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
-                   class="inline-flex items-center justify-center px-9 py-4 bg-white text-black font-semibold text-sm rounded-full hover:bg-blue-400 hover:text-white transition-colors duration-200">
-                    Falar com a equipe
-                </a>
-                <a href="#servicos"
-                   class="inline-flex items-center justify-center px-9 py-4 border border-white/20 text-white/80 font-medium text-sm rounded-full hover:border-blue-500/60 hover:text-blue-400 transition-colors duration-200">
-                    Ver Serviços
-                </a>
+            <div>
+                <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;font-weight:600;color:var(--text);margin-bottom:.75rem">
+                    Produção própria
+                </h3>
+                <p style="color:var(--muted);font-size:.95rem;line-height:1.7;font-weight:300">
+                    Conteúdo feito na nossa estrutura, sem terceiros. Consistência que campanhas exigem.
+                </p>
             </div>
 
-        </div>
-
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20">
-            <div class="scroll-bounce">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-                </svg>
+            <div>
+                <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;font-weight:600;color:var(--text);margin-bottom:.75rem">
+                    Atendimento direto
+                </h3>
+                <p style="color:var(--muted);font-size:.95rem;line-height:1.7;font-weight:300">
+                    Sem estagiário no meio. Você fala com quem toma as decisões.
+                </p>
             </div>
-        </div>
-    </section>
 
-
-    <!-- ══════════════════════════════
-         BLUE LINE + TICKER
-    ══════════════════════════════ -->
-    <div class="border-t-2 line-accent"></div>
-
-    <div class="bg-blue-600 py-3 overflow-hidden select-none">
-        <div class="ticker-track">
-            <!-- set 1 -->
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">T3 STUDIO</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">AGÊNCIA DE MARKETING</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">TRÁFEGO PAGO</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">GESTÃO DE REDES</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">PRODUÇÃO DE CONTEÚDO</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">BRANDING</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">RONDONÓPOLIS-MT</span>
-            <span class="text-white/60 px-2">•</span>
-            <!-- set 2 (duplicate for loop) -->
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">T3 STUDIO</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">AGÊNCIA DE MARKETING</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">TRÁFEGO PAGO</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">GESTÃO DE REDES</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">PRODUÇÃO DE CONTEÚDO</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">BRANDING</span>
-            <span class="text-white/60 px-2">•</span>
-            <span class="text-white font-black text-sm uppercase tracking-[.15em] px-8">RONDONÓPOLIS-MT</span>
-            <span class="text-white/60 px-2">•</span>
         </div>
     </div>
+</section>
 
-    <div class="border-b-2 line-accent"></div>
-
-
-    <!-- ══════════════════════════════
-         ABOUT / MANIFESTO
-    ══════════════════════════════ -->
-    <section id="agencia" class="py-32 px-6 border-b border-white/8">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-
-            <div class="lg:sticky lg:top-28">
-                <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-6">A Agência</p>
-                <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight leading-tight mb-8">
-                    Marketing que<br/>move o ponteiro.
-                </h2>
-                <p class="text-white/55 text-lg font-light leading-relaxed mb-10">
-                    Enquanto outras agências vendem post bonito, a T3 entrega crescimento. Unimos estratégia de dados, produção de conteúdo de alto impacto e gestão de tráfego pago em uma estrutura integrada — projetada para uma única coisa: resultado no seu faturamento.
-                </p>
-                <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
-                   class="inline-flex items-center gap-3 text-blue-400 font-semibold text-sm uppercase tracking-widest hover:text-white transition-colors group">
-                    Conversar com a equipe
-                    <svg class="transition-transform group-hover:translate-x-1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <div class="space-y-0">
-                <div class="flex gap-6 items-start py-8 border-b border-white/8">
-                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">01</span>
-                    <div>
-                        <h3 class="text-white font-bold text-lg mb-2">Diagnóstico de Marca</h3>
-                        <p class="text-white/45 text-sm leading-relaxed">Mapeamos onde você está e onde precisa chegar. Sem achismo — só dados do seu mercado.</p>
-                    </div>
-                </div>
-                <div class="flex gap-6 items-start py-8 border-b border-white/8">
-                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">02</span>
-                    <div>
-                        <h3 class="text-white font-bold text-lg mb-2">Estratégia Personalizada</h3>
-                        <p class="text-white/45 text-sm leading-relaxed">Plano de ação com canais, verba e metas definidas. Adaptado ao seu segmento, não genérico.</p>
-                    </div>
-                </div>
-                <div class="flex gap-6 items-start py-8 border-b border-white/8">
-                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">03</span>
-                    <div>
-                        <h3 class="text-white font-bold text-lg mb-2">Execução & Conteúdo</h3>
-                        <p class="text-white/45 text-sm leading-relaxed">Produzimos, publicamos e gerenciamos tudo. Estrutura própria — sem terceiros no meio.</p>
-                    </div>
-                </div>
-                <div class="flex gap-6 items-start py-8">
-                    <span class="text-blue-500 font-black text-2xl w-12 shrink-0">04</span>
-                    <div>
-                        <h3 class="text-white font-bold text-lg mb-2">Otimização Contínua</h3>
-                        <p class="text-white/45 text-sm leading-relaxed">Relatórios mensais, ajustes constantes e metas escaladas. Resultado que cresce mês a mês.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<hr class="rule">
 
 
-    <!-- ══════════════════════════════
-         SERVICES
-    ══════════════════════════════ -->
-    <section id="servicos" class="py-32 px-6 border-b border-white/8">
-        <div class="max-w-7xl mx-auto">
+<!-- ─────────────────────────────────────
+     SERVICES
+───────────────────────────────────── -->
+<section id="servicos" style="padding:7rem 1.5rem">
+    <div style="max-width:1280px;margin:0 auto">
 
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-                <div>
-                    <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-4">Soluções</p>
-                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight leading-tight">
-                        Tudo que sua<br/>marca precisa.
-                    </h2>
-                </div>
-                <p class="text-white/45 text-sm max-w-xs leading-relaxed">
-                    De zero a escala — ecossistema completo para negócios que querem crescer de verdade.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/8">
-
-                <!-- 01 Tráfego Pago -->
-                <div class="relative overflow-hidden group cursor-default" style="min-height:220px">
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center scale-105 group-hover:scale-110 transition-transform duration-700"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
-                    <div class="relative z-10 p-10 flex flex-col justify-end h-full" style="min-height:220px">
-                        <span class="block text-blue-400 font-black text-sm mb-4">01</span>
-                        <h3 class="text-white font-black text-2xl uppercase tracking-tight leading-tight">Tráfego Pago</h3>
-                    </div>
-                </div>
-
-                <!-- 02 Gestão de Redes Sociais -->
-                <div class="relative overflow-hidden group cursor-default" style="min-height:220px">
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center scale-105 group-hover:scale-110 transition-transform duration-700"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
-                    <div class="relative z-10 p-10 flex flex-col justify-end h-full" style="min-height:220px">
-                        <span class="block text-blue-400 font-black text-sm mb-4">02</span>
-                        <h3 class="text-white font-black text-2xl uppercase tracking-tight leading-tight">Gestão de Redes Sociais</h3>
-                    </div>
-                </div>
-
-                <!-- 03 Produção de Conteúdo -->
-                <div class="relative overflow-hidden group cursor-default" style="min-height:220px">
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center scale-105 group-hover:scale-110 transition-transform duration-700"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
-                    <div class="relative z-10 p-10 flex flex-col justify-end h-full" style="min-height:220px">
-                        <span class="block text-blue-400 font-black text-sm mb-4">03</span>
-                        <h3 class="text-white font-black text-2xl uppercase tracking-tight leading-tight">Produção de Conteúdo</h3>
-                    </div>
-                </div>
-
-                <!-- 04 Branding & Identidade -->
-                <div class="relative overflow-hidden group cursor-default" style="min-height:220px">
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center scale-105 group-hover:scale-110 transition-transform duration-700"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
-                    <div class="relative z-10 p-10 flex flex-col justify-end h-full" style="min-height:220px">
-                        <span class="block text-blue-400 font-black text-sm mb-4">04</span>
-                        <h3 class="text-white font-black text-2xl uppercase tracking-tight leading-tight">Branding & Identidade</h3>
-                    </div>
-                </div>
-
-                <!-- 05 Landing Pages & Sites -->
-                <div class="relative overflow-hidden group cursor-default" style="min-height:220px">
-                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center scale-105 group-hover:scale-110 transition-transform duration-700"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
-                    <div class="relative z-10 p-10 flex flex-col justify-end h-full" style="min-height:220px">
-                        <span class="block text-blue-400 font-black text-sm mb-4">05</span>
-                        <h3 class="text-white font-black text-2xl uppercase tracking-tight leading-tight">Landing Pages & Sites</h3>
-                    </div>
-                </div>
-
-                <!-- CTA card -->
-                <div class="bg-[#080808] p-10 flex items-end justify-end" style="min-height:220px">
-                    <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
-                       class="inline-flex items-center gap-2 text-blue-400 font-semibold text-sm uppercase tracking-widest hover:text-white transition-colors group">
-                        Falar com a equipe
-                        <svg class="transition-transform group-hover:translate-x-1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                        </svg>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ══════════════════════════════
-         CASES
-    ══════════════════════════════ -->
-    <section id="resultados" class="py-32 px-6 border-b border-white/8">
-        <div class="max-w-7xl mx-auto">
-
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-                <div>
-                    <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-4">Portfólio</p>
-                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight leading-tight">
-                        Cases de<br/>Sucesso.
-                    </h2>
-                </div>
-                <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
-                   class="inline-flex items-center gap-2 text-blue-400 font-semibold text-sm uppercase tracking-widest hover:text-white transition-colors group self-start md:self-auto">
-                    Quero resultados assim
-                    <svg class="transition-transform group-hover:translate-x-1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <div class="group">
-                    <div class="relative overflow-hidden border border-white/8 group-hover:border-blue-500/40 transition-colors duration-500 aspect-[9/16] bg-black">
-                        <iframe src="https://player.vimeo.com/video/1177812975?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
-                    </div>
-                    <div class="mt-5">
-                        <p class="text-blue-400 text-[10px] font-semibold uppercase tracking-[.15em] mb-1">Mercado Imobiliário</p>
-                        <h3 class="text-white font-black text-lg uppercase tracking-tight">Fast Imóveis</h3>
-                        <p class="text-white/35 text-sm mt-1">Campanha de lançamento com conteúdo audiovisual e tráfego integrados.</p>
-                    </div>
-                </div>
-
-                <div class="group">
-                    <div class="relative overflow-hidden border border-white/8 group-hover:border-blue-500/40 transition-colors duration-500 aspect-[9/16] bg-black">
-                        <iframe src="https://player.vimeo.com/video/1177813011?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
-                    </div>
-                    <div class="mt-5">
-                        <p class="text-blue-400 text-[10px] font-semibold uppercase tracking-[.15em] mb-1">Corporativo & Frota</p>
-                        <h3 class="text-white font-black text-lg uppercase tracking-tight">Mafro</h3>
-                        <p class="text-white/35 text-sm mt-1">Identidade audiovisual para posicionamento corporativo e autoridade de marca.</p>
-                    </div>
-                </div>
-
-                <div class="group">
-                    <div class="relative overflow-hidden border border-white/8 group-hover:border-blue-500/40 transition-colors duration-500 aspect-[9/16] bg-black">
-                        <iframe src="https://player.vimeo.com/video/1177812991?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;title=0&amp;byline=0&amp;portrait=0&amp;loop=1" class="absolute top-0 left-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
-                    </div>
-                    <div class="mt-5">
-                        <p class="text-blue-400 text-[10px] font-semibold uppercase tracking-[.15em] mb-1">Captação Aérea</p>
-                        <h3 class="text-white font-black text-lg uppercase tracking-tight">Showreel Drone</h3>
-                        <p class="text-white/35 text-sm mt-1">Perspectiva aérea para empreendimentos e infraestrutura de alto padrão.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ══════════════════════════════
-         REVIEWS TICKER
-    ══════════════════════════════ -->
-    <section class="py-24 border-b border-white/8 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 mb-12">
-            <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-4">Depoimentos</p>
-            <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Clientes que cresceram.</h2>
-        </div>
-
-        <div class="overflow-hidden">
-            <div class="reviews-track">
-                <!-- set 1 -->
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"A T3 transformou como a nossa marca aparece no digital. Em 3 meses triplicamos o volume de leads no imobiliário."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">Rafael M.</p>
-                        <p class="text-white/35 text-xs mt-0.5">Diretor Comercial · Fast Imóveis</p>
-                    </div>
-                </div>
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Profissionalismo do início ao fim. O conteúdo que produzem é completamente diferente do que víamos no mercado local."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">Camila S.</p>
-                        <p class="text-white/35 text-xs mt-0.5">CEO · Rede de Franquias</p>
-                    </div>
-                </div>
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Gestão de tráfego precisa e conteúdo alinhado. O ROAS das nossas campanhas melhorou 4x desde que começamos com a T3."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">André L.</p>
-                        <p class="text-white/35 text-xs mt-0.5">Sócio · Grupo Empresarial MT</p>
-                    </div>
-                </div>
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Finalmente uma agência que entrega o que promete. Relatório mensal detalhado e atendimento direto — sem enrolação."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">Patricia O.</p>
-                        <p class="text-white/35 text-xs mt-0.5">Diretora · Clínica Estética</p>
-                    </div>
-                </div>
-                <!-- set 2 duplicate -->
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"A T3 transformou como a nossa marca aparece no digital. Em 3 meses triplicamos o volume de leads no imobiliário."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">Rafael M.</p>
-                        <p class="text-white/35 text-xs mt-0.5">Diretor Comercial · Fast Imóveis</p>
-                    </div>
-                </div>
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Profissionalismo do início ao fim. O conteúdo que produzem é completamente diferente do que víamos no mercado local."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">Camila S.</p>
-                        <p class="text-white/35 text-xs mt-0.5">CEO · Rede de Franquias</p>
-                    </div>
-                </div>
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Gestão de tráfego precisa e conteúdo alinhado. O ROAS das nossas campanhas melhorou 4x desde que começamos com a T3."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">André L.</p>
-                        <p class="text-white/35 text-xs mt-0.5">Sócio · Grupo Empresarial MT</p>
-                    </div>
-                </div>
-                <div class="shrink-0 w-[340px] border border-white/8 p-7 hover:border-blue-500/30 transition-colors">
-                    <p class="text-yellow-400 text-sm mb-4">★★★★★</p>
-                    <p class="text-white/65 text-sm leading-relaxed mb-6">"Finalmente uma agência que entrega o que promete. Relatório mensal detalhado e atendimento direto — sem enrolação."</p>
-                    <div>
-                        <p class="text-white font-semibold text-sm">Patricia O.</p>
-                        <p class="text-white/35 text-xs mt-0.5">Diretora · Clínica Estética</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ══════════════════════════════
-         CTA
-    ══════════════════════════════ -->
-    <section id="contato" class="py-40 px-6 relative overflow-hidden border-b border-white/8">
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div class="w-[500px] h-[500px] bg-blue-600/8 blur-[140px] rounded-full"></div>
-        </div>
-        <div class="max-w-4xl mx-auto text-center relative">
-            <p class="text-[11px] font-semibold tracking-[.18em] uppercase text-blue-400 mb-8">Próximo passo</p>
-            <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight leading-tight mb-8">
-                Pronto para<br/>crescer de verdade?
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3.5rem">
+            <h2 class="display" style="font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:var(--text)">
+                Tudo que<br>sua marca precisa.
             </h2>
-            <p class="text-white/45 text-lg font-light mb-14 max-w-lg mx-auto leading-relaxed">
-                Fale com nossa equipe agora. Em 24h entendemos seu negócio e apresentamos um plano de ação.
+            <p style="color:var(--muted);font-size:.9rem;max-width:280px;line-height:1.6;font-weight:300">
+                De zero a escala — ecossistema completo para negócios que querem crescer de verdade.
             </p>
-            <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank" rel="noopener noreferrer"
-               class="cta-btn inline-flex items-center gap-3 px-12 py-5 bg-[#25D366] text-white font-black uppercase tracking-wide hover:bg-[#1ebd5a] transition-all duration-300 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
-                </svg>
-                Quero Meu Plano de Crescimento
-            </a>
-            <p class="text-white/25 text-xs mt-6 tracking-[.15em] uppercase">Diagnóstico gratuito · Resposta em até 24 horas</p>
         </div>
-    </section>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;background:rgba(240,238,235,.06)">
+
+            <!-- Card 01 -->
+            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
+                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
+                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
+                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">01</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Tráfego Pago</h3>
+                </div>
+            </div>
+
+            <!-- Card 02 -->
+            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
+                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
+                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
+                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">02</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Gestão de Redes Sociais</h3>
+                </div>
+            </div>
+
+            <!-- Card 03 -->
+            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
+                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
+                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
+                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">03</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Produção de Conteúdo</h3>
+                </div>
+            </div>
+
+            <!-- Card 04 -->
+            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
+                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
+                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
+                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">04</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Branding & Identidade</h3>
+                </div>
+            </div>
+
+            <!-- Card 05 -->
+            <div class="svc-card" style="position:relative;overflow:hidden;min-height:260px;cursor:default">
+                <div class="svc-img" style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.95) 40%,rgba(12,12,12,.4))"></div>
+                <div style="position:relative;z-index:1;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-height:260px">
+                    <span style="font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem;display:block">05</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.35rem;font-weight:700;color:var(--text)">Landing Pages & Sites</h3>
+                </div>
+            </div>
+
+            <!-- CTA slot -->
+            <div style="background:var(--bg);min-height:260px;padding:2rem;display:flex;flex-direction:column;justify-content:flex-end">
+                <p style="color:var(--muted);font-size:.9rem;line-height:1.6;font-weight:300;margin-bottom:1.5rem">
+                    Quer saber qual serviço faz mais sentido para o seu negócio agora?
+                </p>
+                <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+                   style="font-size:13px;font-weight:600;color:#93c5fd;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:color .2s"
+                   onmouseover="this.style.color='#f0eeeb'" onmouseout="this.style.color='#93c5fd'">
+                    Conversar com a equipe
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<hr class="rule">
 
 
-    <!-- ══════════════════════════════
-         FOOTER
-    ══════════════════════════════ -->
-    <footer class="py-10 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <span class="font-black tracking-tighter text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                T3 STUDIO
-            </span>
-            <p class="text-white/25 text-xs tracking-wide">&copy; 2026 T3 Studio · Rondonópolis, MT · Agência de Marketing</p>
+<!-- ─────────────────────────────────────
+     CASES
+───────────────────────────────────── -->
+<section id="resultados" style="padding:7rem 1.5rem">
+    <div style="max-width:1280px;margin:0 auto">
+
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3.5rem">
+            <h2 class="display" style="font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:var(--text)">Cases</h2>
             <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
-               class="text-white/40 hover:text-white text-xs uppercase tracking-widest transition-colors">
-                WhatsApp
+               style="font-size:13px;font-weight:500;color:#93c5fd;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:color .2s;align-self:flex-end"
+               onmouseover="this.style.color='#f0eeeb'" onmouseout="this.style.color='#93c5fd'">
+                Quero resultados assim
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
         </div>
-    </footer>
+
+        <!-- Asymmetric grid: one tall left + two stacked right -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:1.5rem">
+
+            <!-- Large: Fast Imóveis -->
+            <div class="case-card" style="grid-column:1;grid-row:1/3">
+                <div style="position:relative;overflow:hidden;border:1px solid rgba(240,238,235,.06);background:#000;aspect-ratio:9/16">
+                    <iframe src="https://player.vimeo.com/video/1177812975?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&loop=1"
+                            style="position:absolute;top:0;left:0;width:100%;height:100%"
+                            frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
+                </div>
+                <div style="margin-top:1rem">
+                    <span style="font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase">Mercado Imobiliário</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-top:.3rem">Fast Imóveis</h3>
+                    <p style="color:var(--muted);font-size:.875rem;line-height:1.6;margin-top:.4rem;font-weight:300">
+                        Campanha de lançamento com conteúdo audiovisual e tráfego integrados.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Mafro -->
+            <div class="case-card" style="grid-column:2/4;grid-row:1">
+                <div style="position:relative;overflow:hidden;border:1px solid rgba(240,238,235,.06);background:#000;aspect-ratio:9/16">
+                    <iframe src="https://player.vimeo.com/video/1177813011?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&loop=1"
+                            style="position:absolute;top:0;left:0;width:100%;height:100%"
+                            frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
+                </div>
+                <div style="margin-top:1rem">
+                    <span style="font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase">Corporativo & Frota</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-top:.3rem">Mafro</h3>
+                    <p style="color:var(--muted);font-size:.875rem;line-height:1.6;margin-top:.4rem;font-weight:300">
+                        Identidade audiovisual para posicionamento corporativo.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Drone -->
+            <div class="case-card" style="grid-column:2/4;grid-row:2">
+                <div style="position:relative;overflow:hidden;border:1px solid rgba(240,238,235,.06);background:#000;aspect-ratio:9/16">
+                    <iframe src="https://player.vimeo.com/video/1177812991?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&loop=1"
+                            style="position:absolute;top:0;left:0;width:100%;height:100%"
+                            frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"></iframe>
+                </div>
+                <div style="margin-top:1rem">
+                    <span style="font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase">Captação Aérea</span>
+                    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-top:.3rem">Showreel Drone</h3>
+                    <p style="color:var(--muted);font-size:.875rem;line-height:1.6;margin-top:.4rem;font-weight:300">
+                        Perspectiva aérea para empreendimentos de alto padrão.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- ─────────────────────────────────────
+     TESTIMONIALS — editorial, not ticker
+───────────────────────────────────── -->
+<section style="padding:7rem 1.5rem">
+    <div style="max-width:1280px;margin:0 auto">
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4rem">
+
+            <figure style="margin:0">
+                <span class="quote-mark">"</span>
+                <blockquote style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.25rem;font-weight:300;color:var(--text);line-height:1.5;margin:0 0 1.5rem">
+                    A T3 transformou como a nossa marca aparece no digital. Em 3 meses triplicamos o volume de leads.
+                </blockquote>
+                <figcaption style="font-size:.875rem;color:var(--muted)">
+                    <strong style="color:var(--text);font-weight:500">Rafael M.</strong> — Diretor Comercial, Fast Imóveis
+                </figcaption>
+            </figure>
+
+            <figure style="margin:0">
+                <span class="quote-mark">"</span>
+                <blockquote style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.25rem;font-weight:300;color:var(--text);line-height:1.5;margin:0 0 1.5rem">
+                    Finalmente uma agência que entrega o que promete. Atendimento direto, relatório claro, resultado real.
+                </blockquote>
+                <figcaption style="font-size:.875rem;color:var(--muted)">
+                    <strong style="color:var(--text);font-weight:500">Patricia O.</strong> — Diretora, Clínica Estética
+                </figcaption>
+            </figure>
+
+            <figure style="margin:0">
+                <span class="quote-mark">"</span>
+                <blockquote style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.25rem;font-weight:300;color:var(--text);line-height:1.5;margin:0 0 1.5rem">
+                    O ROAS das nossas campanhas melhorou 4x. Conteúdo e tráfego alinhados fazem toda a diferença.
+                </blockquote>
+                <figcaption style="font-size:.875rem;color:var(--muted)">
+                    <strong style="color:var(--text);font-weight:500">André L.</strong> — Sócio, Grupo Empresarial MT
+                </figcaption>
+            </figure>
+
+        </div>
+    </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- ─────────────────────────────────────
+     CTA — solid blue, no glow
+───────────────────────────────────── -->
+<section id="contato" style="background:var(--blue);padding:7rem 1.5rem">
+    <div style="max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:3rem">
+
+        <div style="max-width:640px">
+            <h2 class="display" style="font-size:clamp(2.5rem,6vw,5rem);font-weight:300;color:#fff;margin-bottom:1.5rem;line-height:1.05">
+                Pronto para<br><strong style="font-weight:800">crescer de verdade?</strong>
+            </h2>
+            <p style="color:rgba(255,255,255,.7);font-size:1.05rem;line-height:1.7;font-weight:300;max-width:440px">
+                Em 24h entendemos seu negócio e te apresentamos um plano de ação. Diagnóstico gratuito.
+            </p>
+        </div>
+
+        <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank" rel="noopener noreferrer"
+           style="display:inline-flex;align-items:center;gap:.75rem;background:#25D366;color:#fff;font-weight:700;font-size:.9rem;padding:1.1rem 2.2rem;border-radius:2px;text-decoration:none;transition:background .2s;white-space:nowrap"
+           onmouseover="this.style.background='#1ebd5a'" onmouseout="this.style.background='#25D366'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+            </svg>
+            Quero meu plano de crescimento
+        </a>
+
+    </div>
+</section>
+
+
+<!-- ─────────────────────────────────────
+     FOOTER
+───────────────────────────────────── -->
+<footer style="padding:2.5rem 1.5rem;border-top:1px solid rgba(240,238,235,.06)">
+    <div style="max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem">
+
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;color:var(--text)">T3 Studio</span>
+
+        <p style="color:var(--muted);font-size:.8rem">&copy; 2026 T3 Studio · Rondonópolis, MT · Agência de Marketing</p>
+
+        <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank"
+           style="font-size:.8rem;color:var(--muted);text-decoration:none;transition:color .2s"
+           onmouseover="this.style.color='#f0eeeb'" onmouseout="this.style.color='rgba(240,238,235,.42)'">
+            WhatsApp
+        </a>
+
+    </div>
+</footer>
 
 </body>
 </html>
