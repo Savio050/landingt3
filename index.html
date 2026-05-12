@@ -36,8 +36,10 @@
 
         html { scroll-behavior: smooth; }
 
+        html { background: var(--bg); }
+
         body {
-            background: var(--bg);
+            background: transparent;
             color: var(--text);
             font-family: 'Inter', sans-serif;
             font-size: 16px;
@@ -187,6 +189,9 @@
     </style>
 </head>
 <body class="overflow-x-hidden">
+
+<!-- Animated background -->
+<canvas id="bg-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none" aria-hidden="true"></canvas>
 
 <!-- ─────────────────────────────────────
      HEADER
@@ -537,6 +542,88 @@
 
     </div>
 </footer>
+
+
+<script>
+/* ── Animated background ── */
+(function () {
+    'use strict';
+    var c   = document.getElementById('bg-canvas');
+    var ctx = c.getContext('2d');
+    var W = 0, H = 0;
+
+    /* Blob definitions: origin, amplitude, radius, color, opacity, speed, phase */
+    var blobs = [
+        { ox:.10, oy:.18, ax:.22, ay:.18, r:.34, rgb:'37,99,235',  op:.13, sp:1.5e-4, ph:0.0  },
+        { ox:.80, oy:.55, ax:.16, ay:.22, r:.30, rgb:'29,78,216',  op:.10, sp:1.9e-4, ph:1.8  },
+        { ox:.48, oy:.82, ax:.22, ay:.16, r:.38, rgb:'37,99,235',  op:.08, sp:1.2e-4, ph:3.2  },
+        { ox:.90, oy:.15, ax:.08, ay:.20, r:.25, rgb:'30,64,175',  op:.11, sp:1.7e-4, ph:0.6  },
+        { ox:.22, oy:.68, ax:.18, ay:.14, r:.32, rgb:'59,130,246', op:.07, sp:1.3e-4, ph:2.0  },
+        { ox:.60, oy:.28, ax:.14, ay:.26, r:.22, rgb:'99,102,241', op:.06, sp:2.1e-4, ph:4.4  },
+        { ox:.35, oy:.42, ax:.20, ay:.18, r:.28, rgb:'37,99,235',  op:.09, sp:1.6e-4, ph:1.1  },
+    ];
+
+    /* Offscreen dot-grid (drawn once, composited every frame) */
+    var grid = document.createElement('canvas');
+    function buildGrid() {
+        grid.width = W; grid.height = H;
+        var g = grid.getContext('2d');
+        g.fillStyle = 'rgba(37,99,235,.038)';
+        for (var x = 0; x <= W; x += 40)
+            for (var y = 0; y <= H; y += 40) {
+                g.beginPath(); g.arc(x, y, .75, 0, 6.283); g.fill();
+            }
+    }
+
+    function resize() {
+        W = c.width  = window.innerWidth;
+        H = c.height = window.innerHeight;
+        buildGrid();
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    var t = 0;
+    var lastTs = 0;
+    var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function frame(ts) {
+        if (ts - lastTs < 66) { if (!noMotion) requestAnimationFrame(frame); return; } /* ~15fps */
+        lastTs = ts;
+        /* Base fill */
+        ctx.fillStyle = '#0c0c0c';
+        ctx.fillRect(0, 0, W, H);
+
+        /* Animated blobs */
+        for (var i = 0; i < blobs.length; i++) {
+            var b  = blobs[i];
+            var bx = (b.ox + Math.sin(t * b.sp       + b.ph      ) * b.ax) * W;
+            var by = (b.oy + Math.cos(t * b.sp * 1.4 + b.ph + 1.1) * b.ay) * H;
+            var br = b.r * Math.min(W, H);
+            var gr = ctx.createRadialGradient(bx, by, 0, bx, by, br);
+            gr.addColorStop(0,   'rgba(' + b.rgb + ',' + b.op + ')');
+            gr.addColorStop(.4,  'rgba(' + b.rgb + ',' + (b.op * .3).toFixed(3) + ')');
+            gr.addColorStop(1,   'rgba(' + b.rgb + ',0)');
+            ctx.fillStyle = gr;
+            ctx.fillRect(bx - br, by - br, br * 2, br * 2);
+        }
+
+        /* Vignette — darkens edges for depth */
+        var vig = ctx.createRadialGradient(W*.5, H*.45, H*.25, W*.5, H*.45, H*.85);
+        vig.addColorStop(0, 'rgba(0,0,0,0)');
+        vig.addColorStop(1, 'rgba(0,0,0,.55)');
+        ctx.fillStyle = vig;
+        ctx.fillRect(0, 0, W, H);
+
+        /* Dot-grid texture */
+        ctx.drawImage(grid, 0, 0);
+
+        if (!noMotion) { t++; requestAnimationFrame(frame); }
+    }
+
+    requestAnimationFrame(frame);
+}());
+</script>
 
 </body>
 </html>
