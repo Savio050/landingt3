@@ -252,15 +252,15 @@
 <!-- ─────────────────────────────────────
      GROWTH CHART
 ───────────────────────────────────── -->
-<section id="agencia" style="padding:0;overflow:hidden">
+<section id="agencia" style="padding:0">
 
     <!-- scroll wrapper — extra height creates travel while chart stays pinned -->
     <div id="chart-wrapper" style="height:240vh;position:relative">
-        <div style="position:sticky;top:60px;height:calc(100vh - 60px);display:flex;flex-direction:column;justify-content:center;padding:2.5rem 1.5rem 1.5rem;overflow:hidden">
+        <div style="position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:calc(60px + 2rem) 1.5rem 2rem">
             <div style="max-width:1280px;margin:0 auto;width:100%;position:relative;display:flex;flex-direction:column;gap:clamp(1rem,2.5vh,2rem)">
 
-                <!-- Scroll hint: top right -->
-                <div id="scroll-hint" style="position:absolute;top:0;right:0;display:flex;align-items:center;gap:.55rem;color:rgba(240,238,235,.28)">
+                <!-- Scroll hint: top right, below header -->
+                <div id="scroll-hint" style="position:fixed;top:72px;right:1.5rem;display:flex;align-items:center;gap:.55rem;color:rgba(240,238,235,.28);z-index:40">
                     <span style="font-size:11px;font-weight:300;letter-spacing:.07em">continue descendo</span>
                     <svg id="scroll-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M12 5v14M5 12l7 7 7-7"/>
@@ -386,8 +386,8 @@
             m.style.opacity = p >= parseFloat(m.getAttribute('data-t')) ? '1' : '0';
         });
 
-        /* Hide scroll hint near end */
-        hint.style.opacity = p > 0.8 ? '0' : '1';
+        /* Scroll hint: visible only while inside the section, hide near end */
+        hint.style.opacity = (p > 0 && p < 0.82) ? '1' : '0';
     }
 
     window.addEventListener('scroll', update, { passive: true });
