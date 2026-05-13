@@ -698,14 +698,15 @@
     var W = 0, H = 0;
 
     /* Blob definitions: origin, amplitude, radius, color, opacity, speed, phase */
+    /* sp values tuned for visible drift: full cycle ~20-40s at 30fps             */
     var blobs = [
-        { ox:.10, oy:.18, ax:.22, ay:.18, r:.34, rgb:'37,99,235',  op:.13, sp:1.5e-4, ph:0.0  },
-        { ox:.80, oy:.55, ax:.16, ay:.22, r:.30, rgb:'29,78,216',  op:.10, sp:1.9e-4, ph:1.8  },
-        { ox:.48, oy:.82, ax:.22, ay:.16, r:.38, rgb:'37,99,235',  op:.08, sp:1.2e-4, ph:3.2  },
-        { ox:.90, oy:.15, ax:.08, ay:.20, r:.25, rgb:'30,64,175',  op:.11, sp:1.7e-4, ph:0.6  },
-        { ox:.22, oy:.68, ax:.18, ay:.14, r:.32, rgb:'59,130,246', op:.07, sp:1.3e-4, ph:2.0  },
-        { ox:.60, oy:.28, ax:.14, ay:.26, r:.22, rgb:'99,102,241', op:.06, sp:2.1e-4, ph:4.4  },
-        { ox:.35, oy:.42, ax:.20, ay:.18, r:.28, rgb:'37,99,235',  op:.09, sp:1.6e-4, ph:1.1  },
+        { ox:.14, oy:.20, ax:.28, ay:.22, r:.34, rgb:'37,99,235',  op:.14, sp:0.0072, ph:0.0  },
+        { ox:.78, oy:.52, ax:.20, ay:.26, r:.30, rgb:'29,78,216',  op:.11, sp:0.0095, ph:1.8  },
+        { ox:.46, oy:.80, ax:.26, ay:.18, r:.38, rgb:'37,99,235',  op:.09, sp:0.0058, ph:3.2  },
+        { ox:.88, oy:.18, ax:.14, ay:.24, r:.25, rgb:'30,64,175',  op:.12, sp:0.0083, ph:0.6  },
+        { ox:.20, oy:.65, ax:.22, ay:.18, r:.32, rgb:'59,130,246', op:.08, sp:0.0067, ph:2.0  },
+        { ox:.58, oy:.30, ax:.18, ay:.28, r:.22, rgb:'99,102,241', op:.07, sp:0.0110, ph:4.4  },
+        { ox:.36, oy:.44, ax:.24, ay:.22, r:.28, rgb:'37,99,235',  op:.10, sp:0.0079, ph:1.1  },
     ];
 
     /* Offscreen dot-grid (drawn once, composited every frame) */
@@ -733,7 +734,7 @@
     var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function frame(ts) {
-        if (ts - lastTs < 66) { if (!noMotion) requestAnimationFrame(frame); return; } /* ~15fps */
+        if (ts - lastTs < 33) { if (!noMotion) requestAnimationFrame(frame); return; } /* ~30fps */
         lastTs = ts;
         /* Base fill */
         ctx.fillStyle = '#0c0c0c';
