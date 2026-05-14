@@ -22,7 +22,7 @@
     /></noscript>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -265,26 +265,46 @@
 <!-- ─────────────────────────────────────
      HERO
 ───────────────────────────────────── -->
-<section id="inicio" style="min-height:100vh;display:flex;align-items:center;padding:7rem 1.5rem 5rem;position:relative;overflow:hidden">
+<section id="inicio" style="min-height:100vh;display:flex;align-items:center;padding:0;position:relative;overflow:hidden">
 
-    <!-- Geometric accent — right side vertical bar -->
-    <div style="position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--blue);opacity:.7"></div>
-    <!-- Large faint T3 watermark -->
-    <div style="position:absolute;right:5%;top:50%;transform:translateY(-50%);font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(180px,22vw,320px);font-weight:800;color:rgba(37,99,235,.04);line-height:1;letter-spacing:-.04em;user-select:none;pointer-events:none">T3</div>
+    <!-- ── Poster blue block (left, behind text) ── -->
+    <div style="position:absolute;left:0;top:9%;width:42%;height:76vh;background:var(--blue);z-index:0"></div>
 
-    <div style="max-width:1280px;margin:0 auto;width:100%">
+    <!-- Right edge bar (brand line) -->
+    <div style="position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--blue);opacity:.65;z-index:0"></div>
 
-        <h1 class="rev rev-2 display"
-            style="font-size:clamp(2.6rem,5.2vw,5rem);font-weight:300;max-width:820px;margin-bottom:2.5rem;color:var(--text);line-height:1.22">
-            <span style="color:rgba(240,238,235,.5)">Captamos</span> <em style="font-style:normal;font-weight:800;color:var(--blue)">atenção</em>,<br>
-            <span style="color:rgba(240,238,235,.5)">construímos</span> <em style="font-style:normal;font-weight:800;color:var(--blue)">intenção</em>,<br>
-            <span style="color:rgba(240,238,235,.5)">entregamos</span> <em style="font-style:normal;font-weight:800;color:var(--blue)">retenção</em>.
-        </h1>
+    <!-- Main content -->
+    <div style="max-width:1280px;margin:0 auto;width:100%;padding:calc(60px + 3.5rem) clamp(1.5rem,4vw,4rem) 4rem;position:relative;z-index:2">
 
-        <p class="rev rev-2" style="font-size:1.1rem;color:var(--muted);max-width:480px;line-height:1.7;margin-bottom:3rem;font-weight:300">
-            Estratégia, tráfego pago e produção de conteúdo — integrados para gerar resultado no seu faturamento.
+        <!-- "Criando" — thin italic script overlay (like on the stamp) -->
+        <p class="rev rev-1" aria-hidden="true"
+           style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;
+                  font-size:clamp(2.4rem,6vw,7.5rem);line-height:1;letter-spacing:-0.01em;
+                  color:rgba(255,255,255,0.18);margin:0 0 -0.12em 0.04em;
+                  pointer-events:none;user-select:none">
+            Criando
         </p>
 
+        <!-- Main poster headline — massive, tight, overlapping the block -->
+        <h1 class="rev rev-2 display"
+            style="font-size:clamp(3.8rem,12.5vw,14rem);font-weight:800;line-height:0.88;
+                   letter-spacing:-0.04em;color:var(--text);margin:0">
+            atenção,<br>
+            intenção,<br>
+            retenção.
+        </h1>
+
+        <!-- "Em outras palavras" — small italic tagline -->
+        <p class="rev rev-2"
+           style="font-family:'Playfair Display',Georgia,serif;font-style:italic;
+                  font-size:clamp(.8rem,1vw,.95rem);color:rgba(240,238,235,.4);
+                  margin:1.4rem 0 2.8rem .1em;letter-spacing:.02em">
+            Em outras palavras,&nbsp;
+            <strong style="font-style:normal;font-family:'Bricolage Grotesque',sans-serif;
+                           font-weight:700;color:var(--blue);letter-spacing:-.01em">T3 Studio.</strong>
+        </p>
+
+        <!-- CTAs -->
         <div class="rev rev-3" style="display:flex;flex-wrap:wrap;gap:1rem">
             <a href="https://wa.me/5566999427636" onclick="fbq('track','Contact');" target="_blank" class="btn btn-primary">
                 Falar com a equipe
